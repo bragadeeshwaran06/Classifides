@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} - Ads{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1>{{ category.name }}</h1>
+    {% if ads %}
+        <div class="row">
+            {% for ad in ads %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        {% if ad.image %}
+                            <img src="{{ ad.image.url }}" class="card-img-top" alt="{{ ad.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ ad.title }}</h5>
+                            <p class="card-text">{{ ad.description|truncatewords:20 }}</p>
+                            <a href="{% url 'ad_detail' ad.id %}" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No ads found in this category.</p>
+    {% endif %}
+</div>
+{% endblock %}
