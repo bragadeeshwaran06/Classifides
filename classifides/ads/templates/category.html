@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}{{ category.name }} - Ads{% endblock %}
 
 {% block content %}
@@ -10,8 +12,26 @@
             {% for ad in ads %}
                 <div class="col-md-4 mb-4">
                     <div class="card">
-                        {% if ad.image %}
-                            <img src="{{ ad.image.url }}" class="card-img-top" alt="{{ ad.title }}">
+                        {% if ad.images.all %}
+                            <div id="carousel{{ ad.id }}" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    {% for image in ad.images.all %}
+                                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                            <img src="{{ image.image.url }}" class="d-block w-100 card-img-top ad-image" alt="{{ ad.title }}">
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ ad.id }}" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ ad.id }}" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        {% else %}
+                            <img src="{#}" class="card-img-top" alt="No image available">
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ ad.title }}</h5>

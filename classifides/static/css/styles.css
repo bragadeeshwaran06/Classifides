@@ -1,20 +1,89 @@
 /* styles.css */
 
 body {
-    background-color: #f8f9fa;
+    background-color: #e9ecef; /* Light gray background for a subtle look */
+    color: #495057; /* Dark gray text for better readability */
+    font-family: 'Arial', sans-serif; /* Clean, modern font */
+    line-height: 1.6; /* Improve readability with better line spacing */
 }
 
 .navbar {
     margin-bottom: 20px;
+    background-color: #343a40; /* Dark background for the navbar */
+    padding: 10px; /* Add some padding for better spacing */
+    border-radius: 5px; /* Rounded corners for a modern look */
+}
+
+.navbar a {
+    color: black; /* White text for contrast */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.navbar a:hover {
+    color: #adb5bd; /* Lighter gray on hover */
 }
 
 .container {
-    padding: 20px;
+    padding: 30px; /* Increased padding for more space */
+    max-width: 1200px; /* Set a max width for larger screens */
+    margin: auto; /* Center the container horizontally */
+    background-color: #ffffff; /* White background for the main content */
+    border-radius: 8px; /* Rounded corners for a softer look */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 footer {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #f1f1f1;
+    padding: 15px; /* More padding for better spacing */
+    background-color: #343a40; /* Dark background to match the navbar */
+    color: black; /* White text for contrast */
     text-align: center;
+    border-top: 1px solid #495057; /* Subtle top border for separation */
+}
+
+footer a {
+    color: #ffffff; /* White text for links */
+    text-decoration: none; /* Remove underline from links */
+}
+
+footer a:hover {
+    color: #adb5bd; 
+}
+
+.me-2{
+    background-color: black;
+    border-radius: 50px; 
+    padding: 10px 20px;
+    color: #fff;   
+    font-size: 16px;     
+}
+
+.btn-primary {
+    background-color: #000000 !important; /* Force black background */
+    color: #ffffff !important; /* Force white text */
+    border: 1px solid #000000 !important; /* Force black border */
+}
+
+
+
+.btn-primary:hover {
+    background-color: #343a40 !important; /* Slightly lighter black on hover */
+    color: #ffffff !important; /* Keep white text on hover */
+    border-color: #343a40 !important; /* Maintain the dark border on hover */
+}
+
+.btn-primary:focus, .btn-primary:active {
+    box-shadow: none !important; /* Remove focus and active shadow */
+    background-color: #000000 !important; /* Keep black background on focus/active */
+    color: #ffffff !important; /* Keep white text on focus/active */
+}
+
+
+.ad-image {
+ /* Border color and width */
+    border-radius: 8px; /* Rounded corners (optional) */
+    padding: 5px; /* Space between border and image */
+    background-color: #f8f8f8; /* Background color inside the frame (optional) */
+    width: 300px; /* Fixed width */
+    height: 200px; /* Fixed height */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
 }

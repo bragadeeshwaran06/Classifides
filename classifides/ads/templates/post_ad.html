@@ -8,7 +8,7 @@
     <div class="container my-5">
         <h1 class="mb-4" style="text-align: center;">Post a New Ad</h1>
 
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" action="{% url 'post_ad' %}">
             {% csrf_token %}
             <div class="mb-3">
                 {{ ad_form.category.label_tag }}

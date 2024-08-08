@@ -21,7 +21,7 @@
                     <td>{{ ad.category.name }}</td>
                     <td>{{ ad.price | intcomma }}</td>
                     <td>
-                        <a href="{% url 'ad_edit' ad.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'edit_ad' ad.id %}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{% url 'delete_ad' ad.id %}" method="post" style="display:inline;" onsubmit="return confirmDelete();">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
