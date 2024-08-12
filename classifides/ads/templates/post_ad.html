@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Post an Ad - OLX{% endblock %}
+
+{% load humanize %}
+
+{% block content %}
+    <div class="container my-5">
+        <h1 class="mb-4" style="text-align: center;">Post a New Ad</h1>
+
+        <form method="post" enctype="multipart/form-data" action="{% url 'post_ad' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ ad_form.category.label_tag }}
+                {{ ad_form.category }}
+                {{ ad_form.category.errors }}
+            </div>
+            <div class="mb-3">
+                {{ ad_form.title.label_tag }}
+                {{ ad_form.title }}
+                {{ ad_form.title.errors }}
+            </div>
+            <div class="mb-3">
+                {{ ad_form.description.label_tag }}
+                {{ ad_form.description }}
+                {{ ad_form.description.errors }}
+            </div>
+            <div class="mb-3">
+                {{ ad_form.location.label_tag }}
+                {{ ad_form.location }}
+                {{ ad_form.location.errors }}
+            </div>
+            <div class="mb-3">
+                {{ ad_form.postal_code.label_tag }}
+                {{ ad_form.postal_code }}
+                {{ ad_form.postal_code.errors }}
+            </div>
+            <div class="mb-3">
+                {{ ad_form.contact_email.label_tag }}
+                {{ ad_form.contact_email }}
+                {{ ad_form.contact_email.errors }}
+            </div>
+            <div class="mb-3">
+                {{ ad_form.contact_phone.label_tag }}
+                {{ ad_form.contact_phone }}
+                {{ ad_form.contact_phone.errors }}
+            </div>
+
+            <div class="form-check mb-3">
+                {{ ad_form.show_contact_info }}
+                {{ ad_form.show_contact_info.label_tag }}
+            </div>
+            <div class="mb-3">
+                {{ ad_form.price.label_tag }}
+                {{ ad_form.price|intcomma }}
+                {{ ad_form.price.errors }}
+            </div>
+            <div class="mb-3">
+                {{ ad_form.event_dates.label_tag }}
+                {{ ad_form.event_dates }}
+                {{ ad_form.event_dates.errors }}
+            </div>
+            <div class="mb-3">
+                {{ ad_form.tags.label_tag }}
+                {{ ad_form.tags }}
+                {{ ad_form.tags.errors }}
+            </div>
+            
+
+            <div class="mb-3">
+                <h3>Upload images </h3>
+                <label for="images">Images</label>
+                <input type="file" name="images" multiple class="form-control-file">
+            </div>
+            <button type="submit" class="btn btn-primary">Post Ad</button>
+        </form>
+    </div>
+{% endblock %}
