@@ -1,48 +1,48 @@
-/* styles.css */
+
 
 body {
-    background-color: #e9ecef; /* Light gray background for a subtle look */
-    color: #495057; /* Dark gray text for better readability */
-    font-family: 'Arial', sans-serif; /* Clean, modern font */
-    line-height: 1.6; /* Improve readability with better line spacing */
+    background-color: #e9ecef;
+    color: #495057; 
+    font-family: 'Arial', sans-serif; 
+    line-height: 1.6; 
 }
 
 .navbar {
     margin-bottom: 20px;
-    background-color: #343a40; /* Dark background for the navbar */
-    padding: 10px; /* Add some padding for better spacing */
-    border-radius: 5px; /* Rounded corners for a modern look */
+    background-color: #343a40;
+    padding: 10px;  
+    border-radius: 5px; 
 }
 
 .navbar a {
-    color: black; /* White text for contrast */
-    text-decoration: none; /* Remove underline from links */
+    color: black;  
+    text-decoration: none;  
 }
 
 .navbar a:hover {
-    color: #adb5bd; /* Lighter gray on hover */
+    color: #adb5bd; 
 }
 
 .container {
-    padding: 30px; /* Increased padding for more space */
-    max-width: 1200px; /* Set a max width for larger screens */
-    margin: auto; /* Center the container horizontally */
-    background-color: #ffffff; /* White background for the main content */
-    border-radius: 8px; /* Rounded corners for a softer look */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 30px;
+    max-width: 1200px;  
+    margin: auto;  
+    background-color: #ffffff;  
+    border-radius: 8px;  
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
 footer {
-    padding: 15px; /* More padding for better spacing */
-    background-color: #343a40; /* Dark background to match the navbar */
-    color: black; /* White text for contrast */
+    padding: 15px; 
+    background-color: #343a40;  
+    color: black; 
     text-align: center;
-    border-top: 1px solid #495057; /* Subtle top border for separation */
+    border-top: 1px solid #495057; 
 }
 
 footer a {
-    color: #ffffff; /* White text for links */
-    text-decoration: none; /* Remove underline from links */
+    color: #ffffff;  
+    text-decoration: none;  
 }
 
 footer a:hover {
@@ -58,32 +58,62 @@ footer a:hover {
 }
 
 .btn-primary {
-    background-color: #000000 !important; /* Force black background */
-    color: #ffffff !important; /* Force white text */
-    border: 1px solid #000000 !important; /* Force black border */
+    background-color: #000000 !important;
+    color: #ffffff !important; 
+    border: 1px solid #000000 !important;  
 }
 
 
 
 .btn-primary:hover {
-    background-color: #343a40 !important; /* Slightly lighter black on hover */
-    color: #ffffff !important; /* Keep white text on hover */
-    border-color: #343a40 !important; /* Maintain the dark border on hover */
+    background-color: #343a40 !important;  
+    color: #ffffff !important;
+    border-color: #343a40 !important;
 }
 
 .btn-primary:focus, .btn-primary:active {
-    box-shadow: none !important; /* Remove focus and active shadow */
-    background-color: #000000 !important; /* Keep black background on focus/active */
-    color: #ffffff !important; /* Keep white text on focus/active */
+    box-shadow: none !important; 
+    background-color: #000000 !important;  
+    color: #ffffff !important; 
 }
 
-
 .ad-image {
- /* Border color and width */
-    border-radius: 8px; /* Rounded corners (optional) */
-    padding: 5px; /* Space between border and image */
-    background-color: #f8f8f8; /* Background color inside the frame (optional) */
-    width: 300px; /* Fixed width */
-    height: 200px; /* Fixed height */
-    object-fit: cover; /* Ensures the image covers the area without distortion */
+    border-radius: 8px;
+    padding: 5px; 
+    background-color: #f8f8f8;
+    width: 300px;  
+    height: 200px;  
+    object-fit: cover; 
+}
+
+.chat-messages {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.sent {
+    background-color: #d4edda; /* Light green for sent messages */
+    text-align: right;
+}
+
+.received {
+    background-color: #f8d7da; 
+    text-align: left;
+}
+
+.message p {
+    margin: 0;
+}
+
+.message small {
+    display: block;
+    font-size: 0.8em;
+    color: #6c757d;
 }

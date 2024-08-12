@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% load static %}
 {% block title %}User Profile{% endblock %}
 
@@ -15,9 +14,14 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">Email: {{ user.email }}</h5>
-            <p class="card-text">Here are your ads:</p>
+            <div class="mt-4">
+                <h5>Change Your Password</h5>
+                <a href="{% url 'password_change' %}" class="btn btn-primary">Change Password</a>
+            </div>
+        </div>
             {% if ads %}
                 <ul class="list-group">
+                    <p class="card-text">Here are your ads:</p>
                     {% for ad in ads %}
                         <li class="list-group-item">
                             <a href="{% url 'ad_detail' ad.id %}">{{ ad.title }}</a>
@@ -28,7 +32,6 @@
             {% else %}
                 <p>You have no ads.</p>
             {% endif %}
-        </div>
     </div>
 </div>
 {% endblock %}

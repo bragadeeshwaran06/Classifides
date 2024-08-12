@@ -133,3 +133,4 @@ def delete_ad(request, pk):
         return redirect('my_ads')  
 
     return render(request, 'ad_confirm_delete.html', {'ad': ad})
+
