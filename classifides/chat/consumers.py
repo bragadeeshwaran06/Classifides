@@ -1,5 +1,5 @@
 # your_app_name/consumers.py
-
+""""
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from ads.models import Message
@@ -57,3 +57,4 @@ class AdChatConsumer(AsyncWebsocketConsumer):
             'message': message,
             'sender': sender
         }))
+"""
