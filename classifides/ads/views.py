@@ -6,10 +6,10 @@ from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.http import Http404
+from django.views.decorators.http import require_POST
 
 def home(request):
-    categories = Category.objects.all()
-    return render(request, 'base.html', {'categories': categories})
+    return render(request, 'base.html')
 
 def category_ads(request, category_id):
     category = get_object_or_404(Category, id=category_id)
@@ -24,9 +24,8 @@ def category_ads(request, category_id):
 class MyAdsView(View):
     @method_decorator(login_required)
     def get(self, request):
-        categories = Category.objects.all()
         ads = Ad.objects.filter(user=request.user)
-        return render(request, 'my_ads.html', {'ads': ads, 'categories': categories})
+        return render(request, 'my_ads.html', {'ads': ads,})
     
     @method_decorator(login_required)
     def post(self, request):
@@ -41,21 +40,19 @@ class MyAdsView(View):
 def ad_detail(request, ad_id):
     ad = get_object_or_404(Ad, id=ad_id)
     ad_images = ad.images.all()
-    categories = Category.objects.all()
     liked_by_user = Like.objects.filter(ad=ad, user=request.user).exists() if request.user.is_authenticated else False
     receiver = ad.user
      
     return render(request, 'ad_detail.html', {
         'ad': ad,
         'ad_images': ad_images,
-        'categories': categories,
         'liked_by_user': liked_by_user,
         'receiver': receiver, 
     })
 
 @login_required
+@require_POST
 def like_ad(request, ad_id):
-    if request.method == 'POST':
         ad = get_object_or_404(Ad, id=ad_id)
         existing_like = Like.objects.filter(user=request.user, ad=ad).first()
         
@@ -124,13 +121,14 @@ def edit_ad(request, ad_id):
 
 
 @login_required
+@require_POST
 def delete_ad(request, pk):
     ad = get_object_or_404(Ad, id=pk)
     
-    if request.method == 'POST':
-        ad.delete()
-        messages.success(request, 'Ad deleted successfully.')
-        return redirect('my_ads')  
+    if ad.user != request.user:
+        messages.error(request, 'You do not have permission to delete this ad.')
+        return redirect('my_ads')
 
-    return render(request, 'ad_confirm_delete.html', {'ad': ad})
-
+    ad.delete()
+    messages.success(request, 'Ad deleted successfully.')
+    return redirect('my_ads')
