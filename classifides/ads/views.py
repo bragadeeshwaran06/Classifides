@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.http import Http404
 
 def home(request):
     categories = Category.objects.all()
@@ -54,16 +55,17 @@ def ad_detail(request, ad_id):
 
 @login_required
 def like_ad(request, ad_id):
-    ad = get_object_or_404(Ad, id=ad_id)
-    existing_like = Like.objects.filter(user=request.user, ad=ad).first()
-    
-    if existing_like:
-        existing_like.delete()
+    if request.method == 'POST':
+        ad = get_object_or_404(Ad, id=ad_id)
+        existing_like = Like.objects.filter(user=request.user, ad=ad).first()
+        
+        if existing_like:
+            existing_like.delete()
 
-    else:
-        Like.objects.create(user=request.user, ad=ad)
+        else:
+            Like.objects.create(user=request.user, ad=ad)
 
-    return redirect('ad_detail', ad_id=ad.id)
+        return redirect('ad_detail', ad_id=ad.id)
 
 @login_required
 def post_ad(request):
@@ -90,6 +92,9 @@ def post_ad(request):
 def edit_ad(request, ad_id):
     ad = get_object_or_404(Ad, id=ad_id)
     
+    if ad.created_by != request.user:
+        raise Http404("You do not have permission to edit this ad.")
+
     if request.method == 'POST':
         form = AdForm(request.POST, instance=ad)
         formset = AdImageFormSet(request.POST, request.FILES, queryset=ad.images.all())
@@ -116,14 +121,6 @@ def edit_ad(request, ad_id):
         'formset': formset,
     })
 
-@login_required
-def delete_ad(request, pk):
-    ad = get_object_or_404(Ad, pk=pk, user=request.user)
-    if request.method == 'POST':
-        ad.delete()
-        messages.success(request, 'Ad deleted successfully.')
-        return redirect('my_ads')
-    return render(request, 'confirm_delete.html', {'ad': ad})
 
 @login_required
 def delete_ad(request, pk):
