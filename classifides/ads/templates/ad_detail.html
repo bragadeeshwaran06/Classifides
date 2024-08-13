@@ -42,35 +42,24 @@
         </div>
         <div class="col-md-4">
             {% if user.is_authenticated %}
+            <form action="{% url 'like_ad' ad.id %}" method="post" class="mb-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">
+                    {% if liked_by_user %}
+                        Unlike
+                    {% else %}
+                        Like
+                    {% endif %}
+                </button>
+            </form>
                 {% if ad.user != user %}
-                    <form action="{% url 'like_ad' ad.id %}" method="post" class="mb-3">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-primary">
-                            {% if liked_by_user %}
-                                Unlike
-                            {% else %}
-                                Like
-                            {% endif %}
-                        </button>
-                    </form>
-                    <a href="{% url 'ad_chat' ad.id %}" class="btn btn-secondary">Message Seller</a>
+                    <a href="{% url 'send_message' ad.id receiver.id %}" class="btn btn-secondary">Message Seller</a>
                 {% else %}
-                    <a href="{% url 'ad_chat' ad.id %}" class="btn btn-secondary">Message</a>
+                    <a href="{% url 'send_message' ad.id receiver.id %}" class="btn btn-secondary">Message</a>
                 {% endif %}
             {% else %}
                 <p><a href="{% url 'login' %}">Log in</a> to like or message the seller.</p>
             {% endif %}
-
-            <h3 class="mt-4">Messages</h3>
-            <ul class="list-group">
-                {% for message in ad.messages.all %}
-                    <li class="list-group-item {% if message.sender == user %}text-end{% else %}text-start{% endif %}">
-                        <strong>{{ message.sender.username }}</strong>: {{ message.content }}
-                    </li>
-                {% empty %}
-                    <li class="list-group-item">No messages yet.</li>
-                {% endfor %}
-            </ul>
         </div>
     </div>
 </div>

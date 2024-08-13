@@ -32,34 +32,6 @@ def user_profile(request):
     ads = Ad.objects.filter(user=user)  
     return render(request, 'user_profile.html', {'user': user, 'ads': ads})
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
-from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-
-class CustomPasswordResetView(PasswordResetView):
-    def dispatch(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return redirect('home')  
-        return super().dispatch(*args, **kwargs)
-
-class CustomPasswordResetDoneView(PasswordResetDoneView):
-    def dispatch(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return redirect('home') 
-        return super().dispatch(*args, **kwargs)
-
-class CustomPasswordResetConfirmView(PasswordResetConfirmView):
-    def dispatch(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return redirect('home') 
-        return super().dispatch(*args, **kwargs)
-
-class CustomPasswordResetCompleteView(PasswordResetCompleteView):
-    def dispatch(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return redirect('home')  
-        return super().dispatch(*args, **kwargs)
-
 def custom_logout_view(request):
     if request.method == 'POST' or request.method == 'GET':
         logout(request)

@@ -42,12 +42,14 @@ def ad_detail(request, ad_id):
     ad_images = ad.images.all()
     categories = Category.objects.all()
     liked_by_user = Like.objects.filter(ad=ad, user=request.user).exists() if request.user.is_authenticated else False
-
+    receiver = ad.user
+     
     return render(request, 'ad_detail.html', {
         'ad': ad,
         'ad_images': ad_images,
         'categories': categories,
-        'liked_by_user': liked_by_user, 
+        'liked_by_user': liked_by_user,
+        'receiver': receiver, 
     })
 
 @login_required
@@ -87,7 +89,7 @@ def post_ad(request):
 @login_required
 def edit_ad(request, ad_id):
     ad = get_object_or_404(Ad, id=ad_id)
-
+    
     if request.method == 'POST':
         form = AdForm(request.POST, instance=ad)
         formset = AdImageFormSet(request.POST, request.FILES, queryset=ad.images.all())
