@@ -44,8 +44,6 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'django.contrib.humanize',
     'widget_tweaks',
-    'channels',
-    'chat.apps.ChatConfig',
 ]
 
 SITE_ID = 1
@@ -91,8 +89,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-ASGI_APPLICATION = 'classifides.asgi.application'
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -111,14 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
