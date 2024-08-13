@@ -1,34 +1,40 @@
-from django.shortcuts import render, get_object_or_404
+# views.py
+
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from ads.models import Ad, Message
+from ads.models import Message, Ad
+from django.contrib.auth.models import User
+from chat.forms import MessageForm
 
 @login_required
-def ad_chat(request, ad_id):
+def send_message(request, ad_id, receiver_id):
     ad = get_object_or_404(Ad, id=ad_id)
-
-    if ad.user is None:
-
-        return render(request, 'chat/ad_chat.html', {
-            'ad': ad,
-            'messages': [],
-            'error': 'No valid user for this ad.',
-        })
-
+    receiver = get_object_or_404(User, id=receiver_id)
+    
     if request.method == 'POST':
-        content = request.POST.get('content')
-        if content:
-            try:
-                Message.objects.create(sender=request.user, receiver=ad.user, content=content, ad=ad)
-            except Exception as e:
-                # Log the error or handle it as needed
-                return render(request, 'chat/ad_chat.html', {
-                    'ad': ad,
-                    'messages': Message.objects.filter(ad=ad).order_by('timestamp'),
-                    'error': str(e),
-                })
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user
+            message.receiver = receiver
+            message.ad = ad
+            message.save()
+            return redirect('message_list')
+    else:
+        form = MessageForm()
 
-    messages = Message.objects.filter(ad=ad).order_by('timestamp')
-    return render(request, 'chat/ad_chat.html', {
-        'ad': ad,
-        'messages': messages,
-    })
+    return render(request, 'send_message.html', {'form': form, 'receiver': receiver, 'ad': ad})
+
+@login_required
+def message_list(request):
+    messages = Message.objects.filter(receiver=request.user)
+    return render(request, 'message_list.html', {'messages': messages})
+
+@login_required
+def conversation(request, user_id):
+    other_user = get_object_or_404(User, id=user_id)
+    messages = Message.objects.filter(
+        (models.Q(sender=request.user) & models.Q(receiver=other_user)) |
+        (models.Q(sender=other_user) & models.Q(receiver=request.user))
+    ).order_by('timestamp')
+    return render(request, 'conversation.html', {'messages': messages, 'other_user': other_user})
