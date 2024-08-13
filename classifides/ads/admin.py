@@ -25,3 +25,7 @@ class MessageAdmin(admin.ModelAdmin):
 class LikeAdmin(admin.ModelAdmin):
     list_display = ('user', 'ad')
     search_fields = ('user__username', 'ad__title')
+
+@admin.register(AdImage)
+class AdImageAdmin(admin.ModelAdmin):
+    list_display = ['image']
