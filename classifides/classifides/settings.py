@@ -44,8 +44,6 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'django.contrib.humanize',
     'widget_tweaks',
-    'channels',
-    'chat.apps.ChatConfig',
 ]
 
 SITE_ID = 1
