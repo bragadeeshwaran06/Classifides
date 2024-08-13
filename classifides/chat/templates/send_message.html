@@ -1,12 +1,54 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
 <div class="container">
-    <h2>Send Message to {{ receiver.username }} about {{ ad.title }}</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Send</button>
-    </form>
+    <h2>Messages with {{ recipient.username }}</h2>
+    
+    <!-- Display messages -->
+    <div id="message-list">
+        {% for message in messages %}
+            <div class="message">
+                <strong>{{ message.sender.username }}:</strong> {{ message.content }}
+            </div>
+        {% empty %}
+            <p>No messages yet. Start the conversation!</p>
+        {% endfor %}
+    </div>
+
+    <!-- Input for new message -->
+    <div id="new-message">
+        <textarea id="message-content" placeholder="Type your message here..."></textarea>
+        <button id="send-message" class="btn btn-primary">Send</button>
+    </div>
 </div>
+
+<script>
+    document.getElementById('send-message').addEventListener('click', function() {
+        const content = document.getElementById('message-content').value;
+
+        if (content.trim() !== "") {
+            // Send the message via AJAX or WebSocket
+            fetch("{% url 'send_message' ad.id recipient.id %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ "content": content })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Add the new message to the message list
+                const messageList = document.getElementById('message-list');
+                const newMessage = document.createElement('div');
+                newMessage.classList.add('message');
+                newMessage.innerHTML = `<strong>{{ request.user.username }}:</strong> ${data.content}`;
+                messageList.appendChild(newMessage);
+
+                // Clear the message input
+                document.getElementById('message-content').value = "";
+            });
+        }
+    });
+</script>
 {% endblock %}

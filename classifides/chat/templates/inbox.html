@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Inbox</h2>
+<ul>
+    {% for user, last_message in conversations %}
+        <li>
+            <a href="{% url 'conversation' ad_id=last_message.ad.id user_id=user.id %}">
+                Conversation with {{ user.username }} - Last message: {{ last_message.content }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

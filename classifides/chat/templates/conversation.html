@@ -1,20 +1,27 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
+<h2>Conversation with {{ other_user.username }}</h2>
+
 <div class="container">
-    <h2>Conversation with {{ other_user.username }}</h2>
     <div class="messages">
         {% for message in messages %}
-            <div class="message">
-                <strong>{{ message.sender.username }}</strong>: {{ message.content }}
-                <small class="float-end">{{ message.timestamp }}</small>
+            <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                <div class="message-content">
+                    {{ message.content }}
+                </div>
+                <div class="message-timestamp">
+                    {{ message.timestamp|date:"M d, Y H:i" }}
+                </div>
             </div>
         {% endfor %}
     </div>
-    <form method="post" action="{% url 'send_message' ad.id other_user.id %}">
-        {% csrf_token %}
-        <textarea name="content" class="form-control" rows="3"></textarea>
-        <button type="submit" class="btn btn-primary mt-2">Send</button>
-    </form>
-</div>
+
+<form method="post">
+    {% csrf_token %}
+    <textarea name="message" placeholder="Type your message here"></textarea>
+    <button type="submit">Send</button>
+</form>
 {% endblock %}

@@ -93,27 +93,31 @@ footer a:hover {
 }
 
 .message {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
+    max-width: 70%;
+    word-wrap: break-word;
+    position: relative;
 }
 
 .sent {
-    background-color: #d4edda; /* Light green for sent messages */
+    background-color: #dcf8c6;
+    margin-left: auto;
     text-align: right;
 }
 
 .received {
-    background-color: #f8d7da; 
+    background-color: #f1f0f0;
+    margin-right: auto;
     text-align: left;
 }
 
-.message p {
-    margin: 0;
+.message-content {
+    font-size: 1rem;
 }
 
-.message small {
-    display: block;
-    font-size: 0.8em;
-    color: #6c757d;
+.message-timestamp {
+    font-size: 0.8rem;
+    color: #888;
 }
