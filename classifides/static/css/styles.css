@@ -121,3 +121,32 @@ footer a:hover {
     font-size: 0.8rem;
     color: #888;
 }
+
+.message-input-container {
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.message-input-container textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    resize: none;
+}
+
+.message-input-container button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.message-input-container button:hover {
+    background-color: #0056b3;
+}

@@ -7,11 +7,11 @@ from django.db import models
 @login_required
 def conversation(request, ad_id, user_id):
     ad = get_object_or_404(Ad, id=ad_id)
-    other_user = ad.user
+    other_user = get_object_or_404(User, id=user_id)
         
     messages = Message.objects.filter(
-        models.Q(sender=request.user) & models.Q(receiver=other_user) |
-        models.Q(sender=other_user) & models.Q(receiver=request.user),
+        models.Q(sender=request.user, receiver=other_user) |
+        models.Q(sender=other_user, receiver=request.user),
         ad=ad
     ).order_by('timestamp')
     

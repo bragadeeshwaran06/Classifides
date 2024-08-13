@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block content %}
 <div class="container">
     <h2>Messages with {{ recipient.username }}</h2>
-    
-    <!-- Display messages -->
+
     <div id="message-list">
         {% for message in messages %}
-            <div class="message">
+            <div class="message {% if message.sender == user %}sent{% else %}received{% endif %}">
                 <strong>{{ message.sender.username }}:</strong> {{ message.content }}
             </div>
         {% empty %}
@@ -15,19 +16,17 @@
         {% endfor %}
     </div>
 
-    <!-- Input for new message -->
-    <div id="new-message">
-        <textarea id="message-content" placeholder="Type your message here..."></textarea>
-        <button id="send-message" class="btn btn-primary">Send</button>
+    <div id="new-message" class="message-input-container">
+        <textarea id="message-content" placeholder="Type your message here..." class="form-control" rows="4"></textarea>
+        <button id="send-message" class="btn btn-primary mt-2">Send</button>
     </div>
 </div>
 
 <script>
     document.getElementById('send-message').addEventListener('click', function() {
-        const content = document.getElementById('message-content').value;
+        const content = document.getElementById('message-content').value.trim();
 
-        if (content.trim() !== "") {
-            // Send the message via AJAX or WebSocket
+        if (content) {
             fetch("{% url 'send_message' ad.id recipient.id %}", {
                 method: "POST",
                 headers: {
@@ -38,16 +37,19 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Add the new message to the message list
-                const messageList = document.getElementById('message-list');
-                const newMessage = document.createElement('div');
-                newMessage.classList.add('message');
-                newMessage.innerHTML = `<strong>{{ request.user.username }}:</strong> ${data.content}`;
-                messageList.appendChild(newMessage);
+                if (data.success) {
+                    const messageList = document.getElementById('message-list');
+                    const newMessage = document.createElement('div');
+                    newMessage.classList.add('message');
+                    newMessage.classList.add('sent');  // Assume the message is sent by the current user
+                    newMessage.innerHTML = `<strong>{{ user.username }}:</strong> ${data.content}`;
+                    messageList.appendChild(newMessage);
 
-                // Clear the message input
-                document.getElementById('message-content').value = "";
-            });
+                    document.getElementById('message-content').value = "";
+                    messageList.scrollTop = messageList.scrollHeight;  // Scroll to the bottom
+                }
+            })
+            .catch(error => console.error('Error:', error));
         }
     });
 </script>

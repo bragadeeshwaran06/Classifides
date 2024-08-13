@@ -1,23 +1,16 @@
 {% extends 'base.html' %}
 
-{% load static %}
-
 {% block content %}
 <h2>Conversation with {{ other_user.username }}</h2>
 
-<div class="container">
-    <div class="messages">
-        {% for message in messages %}
-            <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
-                <div class="message-content">
-                    {{ message.content }}
-                </div>
-                <div class="message-timestamp">
-                    {{ message.timestamp|date:"M d, Y H:i" }}
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+<div class="messages">
+    {% for message in messages %}
+        <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+            <p>{{ message.content }}</p>
+            <small>{{ message.timestamp }}</small>
+        </div>
+    {% endfor %}
+</div>
 
 <form method="post">
     {% csrf_token %}

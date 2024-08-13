@@ -44,8 +44,6 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'django.contrib.humanize',
     'widget_tweaks',
-    'channels',
-    'chat.apps.ChatConfig',
 ]
 
 SITE_ID = 1
@@ -65,7 +63,8 @@ ROOT_URLCONF = 'classifides.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'chat/templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,7 +91,6 @@ DATABASES = {
     }
 }
 
-ASGI_APPLICATION = 'classifides.asgi.application'
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -111,14 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -139,7 +129,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-
+LOGIN_URL = 'home'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
