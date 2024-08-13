@@ -71,28 +71,29 @@ def like_ad(request, ad_id):
 def post_ad(request):
     if request.method == 'POST':
         ad_form = AdForm(request.POST, request.FILES)
-        
+        ad_image_form = AdImageForm()
         if ad_form.is_valid():
             ad = ad_form.save(commit=False)
             ad.user = request.user
             ad.save()
 
+            
             images = request.FILES.getlist('images')
             for image in images:
                 AdImage.objects.create(image=image, uploaded_by=request.user, ad=ad)
-                
+
             return redirect('home')
     else:
         ad_form = AdForm()
         ad_image_form = AdImageForm()
-    
+
     return render(request, 'post_ad.html', {'ad_form': ad_form, 'ad_image_form': ad_image_form})
 
 @login_required
 def edit_ad(request, ad_id):
     ad = get_object_or_404(Ad, id=ad_id)
     
-    if ad.created_by != request.user:
+    if ad.user != request.user:
         raise Http404("You do not have permission to edit this ad.")
 
     if request.method == 'POST':
