@@ -53,7 +53,7 @@
                 </button>
             </form>
                 {% if ad.user != user %}
-                    <a href="{% url 'conversation' ad.id user.id %}" class="btn btn-secondary">Chat with seller</a>
+                    <a href="{% url 'conversation' ad.id ad.user.id %}" class="btn btn-secondary">Chat with seller</a>
                 {% else %}
                     <a href="{% url 'inbox' %}" class="btn btn-secondary">inbox</a>
                 {% endif %}

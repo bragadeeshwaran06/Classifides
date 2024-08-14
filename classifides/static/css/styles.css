@@ -1,4 +1,82 @@
+/* Container for messages */
+.messages {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px; /* Space between messages */
+    margin-bottom: 20px;
+}
 
+/* Style for individual messages */
+.message {
+    max-width: 60%; /* Control the width of the message bubbles */
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+/* Align sent messages to the right */
+.message.sent {
+    justify-self: end;
+    background-color: #e1ffc7; /* Light green background for sent messages */
+    text-align: right;
+}
+
+/* Align received messages to the left */
+.message.received {
+    justify-self: start;
+    background-color: #f1f1f1; /* Light gray background for received messages */
+    text-align: left;
+}
+
+/* Timestamp style */
+.message-timestamp {
+    font-size: 0.8em;
+    color: #888;
+    margin-top: 5px;
+}
+
+/* Message form container */
+.message-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+/* Style for the message textarea */
+.message-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical; /* Allows vertical resizing */
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+.message-input:focus {
+    border-color: #007bff; /* Change border color on focus */
+    outline: none;
+}
+
+/* Style for the send button */
+.send-button {
+    align-self: flex-end;
+    padding: 10px 20px;
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.send-button:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+}
 
 body {
     background-color: #e9ecef;
@@ -101,52 +179,4 @@ footer a:hover {
     position: relative;
 }
 
-.sent {
-    background-color: #dcf8c6;
-    margin-left: auto;
-    text-align: right;
-}
 
-.received {
-    background-color: #f1f0f0;
-    margin-right: auto;
-    text-align: left;
-}
-
-.message-content {
-    font-size: 1rem;
-}
-
-.message-timestamp {
-    font-size: 0.8rem;
-    color: #888;
-}
-
-.message-input-container {
-    padding: 10px;
-    border-top: 1px solid #ccc;
-    background-color: #f9f9f9;
-}
-
-.message-input-container textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    resize: none;
-}
-
-.message-input-container button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.message-input-container button:hover {
-    background-color: #0056b3;
-}
