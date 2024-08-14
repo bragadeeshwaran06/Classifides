@@ -1,7 +1,9 @@
 from django.urls import path
-from . import views
+from chat.views import *
 
 urlpatterns = [
-    path('inbox/', views.inbox, name='inbox'),
-    path('conversation/<int:ad_id>/<int:user_id>/', views.conversation, name='conversation'),
+    path('inbox/', inbox, name='inbox'),
+    path('conversation/<int:ad_id>/<int:user_id>/', conversation, name='conversation'),
+    path('edit-message/<int:message_id>/', edit_message, name='edit_message'),
+    path('delete-message/<int:message_id>/', delete_message, name='delete_message'),
 ]

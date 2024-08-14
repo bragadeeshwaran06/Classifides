@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from ads.models import Message, Ad
 from django.contrib.auth.models import User
 from django.db import models
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 @login_required
 def conversation(request, ad_id, user_id):
@@ -44,3 +46,23 @@ def inbox(request):
         conversations.append((user, last_message))
     
     return render(request, 'inbox.html', {'conversations': conversations})
+
+
+@require_POST
+def edit_message(request,message_id):
+    message_id = request.POST.get('message_id')
+    new_content = request.POST.get('new_message_content')
+    
+    message = get_object_or_404(Message, id=message_id, sender=request.user)
+    message.content = new_content
+    message.save()
+    
+    return redirect('conversation', ad_id=message.ad.id, user_id=message.receiver.id)
+
+@require_POST
+def delete_message(request, message_id):
+    message = get_object_or_404(Message, id=message_id, sender=request.user)
+    ad_id = message.ad.id
+    message.delete()
+    
+    return redirect('conversation', ad_id=ad_id, user_id=message.receiver.id)
