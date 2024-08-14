@@ -1,14 +1,9 @@
-from django.urls import path,include
+from django.urls import path
 from .views import *
 from .views import user_profile
 from django.contrib.auth import views as auth_views 
 from . import views
-from django.contrib.auth.views import (
-    PasswordResetView,
-    PasswordResetDoneView,
-    PasswordResetConfirmView,
-    PasswordResetCompleteView
-)
+from django.contrib.auth.views import *
 
 urlpatterns = [
     path('register/',register,name='register'),
