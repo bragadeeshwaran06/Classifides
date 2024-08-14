@@ -18,7 +18,7 @@
 /* Align sent messages to the right */
 .message.sent {
     justify-self: end;
-    background-color: #e1ffc7; /* Light green background for sent messages */
+    background-color: #e3e8df; /* Light green background for sent messages */
     text-align: right;
 }
 
@@ -43,39 +43,56 @@
     margin-top: 20px;
 }
 
-/* Style for the message textarea */
+/* Form container styling */
+.message-form-container {
+    display: flex;
+    flex-direction: column; /* Stack textarea and button vertically */
+    gap: 8px; /* Space between textarea and button */
+    padding: 12px; /* Padding around the form */
+    border: 1px solid #e0e0e0; /* Light gray border */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Medium shadow for depth */
+}
+
+/* Textarea styling */
 .message-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    resize: vertical; /* Allows vertical resizing */
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    font-size: 1em;
-    transition: border-color 0.3s ease;
+    width: 100%; /* Full width of the container */
+    padding: 12px; /* Padding inside the textarea */
+    border: 1px solid #b0b0b0; /* Slightly darker border */
+    border-radius: 8px; /* Rounded corners */
+    resize: none; /* Disable resizing */
+    font-size: 15px; /* Font size */
+    line-height: 1.6; /* Line height for readability */
+    background-color: #fafafa; /* Slightly gray background */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle inner shadow */
 }
 
-.message-input:focus {
-    border-color: #007bff; /* Change border color on focus */
-    outline: none;
-}
-
-/* Style for the send button */
+/* Button styling */
 .send-button {
-    align-self: flex-end;
-    padding: 10px 20px;
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
+    width: 100%; /* Full width of the container */
+    background-color: black; /* Black background */
+    color: #ffffff; /* White text */
+    border: none; /* Remove default border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 12px; /* Padding inside the button */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 15px; /* Font size */
+    font-weight: 600; /* Bold text */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth background color and transform transitions */
 }
 
+
+/* Button hover effect */
 .send-button:hover {
-    background-color: #0056b3; /* Darker shade for hover effect */
+    background-color: black; /* Darker green on hover */
+    transform: translateY(-3px); /* Slight lift on hover */
+}
+
+/* Button focus effect */
+.send-button:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 0 3px rgba(0, 255, 0, 0.3); /* Custom focus outline */
 }
 
 body {
