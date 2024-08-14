@@ -52,7 +52,7 @@ def inbox(request):
 def edit_message(request,message_id):
     message_id = request.POST.get('message_id')
     new_content = request.POST.get('new_message_content')
-    
+
     message = get_object_or_404(Message, id=message_id, sender=request.user)
     message.content = new_content
     message.save()
