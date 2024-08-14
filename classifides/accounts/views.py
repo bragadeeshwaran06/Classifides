@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from ads.models import Ad  
 from .forms import CustomUserCreationForm
 from django.contrib.auth import logout
+from django.views.decorators.http import require_http_methods
 
 def register(request):
     if request.method == 'POST':
@@ -27,11 +27,8 @@ def user_profile(request):
     ads = Ad.objects.filter(user=user)  
     return render(request, 'user_profile.html', {'user': user, 'ads': ads})
 
+@require_http_methods(["GET", "POST"])
 def custom_logout_view(request):
-    if request.method == 'POST' or request.method == 'GET':
-        logout(request)
-        referer = request.META.get('HTTP_REFERER', '/')
-        return redirect(referer)
-    else:
-        return redirect('/')
-    
+    logout(request)
+    referer = request.META.get('HTTP_REFERER', '/')
+    return redirect(referer)
