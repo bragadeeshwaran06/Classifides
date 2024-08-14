@@ -10,21 +10,16 @@ def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data.get('email')
-            if User.objects.filter(email=email).exists():
-                form.add_error('email', 'Email is already in use')
-            else:
-                user = form.save()  
-                username = form.cleaned_data.get('username')
-                password = form.cleaned_data.get('password1')
-                user = authenticate(username=username, password=password)  
-                login(request, user) 
-                return redirect('home') 
+            user = form.save()  
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)  
+            login(request, user) 
+            return redirect('home') 
     else:
         form = CustomUserCreationForm()
 
     return render(request, 'registration/register.html', {'form': form})
-
 
 @login_required
 def user_profile(request):
