@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}User Profile{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="card">
+        <div class="card-header">
+            <h3>{{ user.username }}'s Profile</h3>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Email: {{ user.email }}</h5>
+            <div class="mt-4">
+                <h5>Change Your Password</h5>
+                <a href="{% url 'password_change' %}" class="btn btn-primary">Change Password</a>
+            </div>
+        </div>
+            {% if ads %}
+                <ul class="list-group">
+                    <p class="card-text">Here are your ads:</p>
+                    {% for ad in ads %}
+                        <li class="list-group-item">
+                            <a href="{% url 'ad_detail' ad.id %}">{{ ad.title }}</a>
+                            <span class="badge bg-secondary float-end">{{ ad.price|floatformat:2 }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You have no ads.</p>
+            {% endif %}
+    </div>
+</div>
+{% endblock %}
