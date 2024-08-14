@@ -34,3 +34,4 @@ def custom_logout_view(request):
         return redirect(referer)
     else:
         return redirect('/')
+    
