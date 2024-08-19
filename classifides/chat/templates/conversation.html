@@ -28,35 +28,33 @@
         {% endfor %}
     </div>
 
-    <div id="editMessageForm" class="edit-form-container" style="display: none;">
-        <form method="post" id="edit-message-form">
+    <div id="messageFormContainer">
+        <form method="post" id="message-form">
             {% csrf_token %}
-            <textarea name="new_message_content" id="edit-message-input"></textarea>
-            <input type="hidden" name="message_id" id="edit-message-id">
-            <button type="submit">Save</button>
-            <button type="button" onclick="closeEditForm()">Cancel</button>
+            <textarea name="message" id="message-input" placeholder="Type your message here..." class="message-input"></textarea>
+            <input type="hidden" name="message_id" id="message-id">
+            <button type="submit" class="send-button" id="message-submit-btn">Send</button>
+            <button type="button" id="cancel-edit-btn" style="display: none;" onclick="cancelEdit()">Cancel</button>
         </form>
     </div>
-    
-    <form method="post" class="message-form">
-        {% csrf_token %}
-        <textarea name="message" placeholder="Type your message here..." class="message-input"></textarea>
-        <button type="submit" class="send-button">Send</button>
-    </form>
 </div>
 
 <script>
 function openEditForm(messageId) {
     const messageContent = document.querySelector(`[data-message-id="${messageId}"] span`).textContent;
-    document.getElementById('edit-message-id').value = messageId;
-    document.getElementById('edit-message-input').value = messageContent;
-    const form = document.getElementById('edit-message-form');
-    form.action = `{% url 'edit_message' 0 %}`.replace('0', messageId);
-    document.getElementById('editMessageForm').style.display = 'block';
-}
+    document.getElementById('message-id').value = messageId;
+    document.getElementById('message-input').value = messageContent;
+    document.getElementById('message-submit-btn').textContent = 'Save';
+    document.getElementById('message-form').action = `{% url 'edit_message' 0 %}`.replace('0', messageId);
+    document.getElementById('cancel-edit-btn').style.display = 'inline-block';
+}   
 
-function closeEditForm() {
-    document.getElementById('editMessageForm').style.display = 'none';
+function cancelEdit() {
+    document.getElementById('message-id').value = '';
+    document.getElementById('message-input').value = '';
+    document.getElementById('message-submit-btn').textContent = 'Send';
+    document.getElementById('message-form').action = '';
+    document.getElementById('cancel-edit-btn').style.display = 'none';
 }
 </script>
 {% endblock %}

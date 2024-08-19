@@ -47,16 +47,18 @@ def inbox(request):
     
     return render(request, 'inbox.html', {'conversations': conversations})
 
-
 @require_POST
-def edit_message(request,message_id):
-    message_id = request.POST.get('message_id')
-    new_content = request.POST.get('new_message_content')
-
+def edit_message(request, message_id):
     message = get_object_or_404(Message, id=message_id, sender=request.user)
-    message.content = new_content
+    new_content = request.POST.get('message')
+    print(f"New content: {new_content}")
+
+    if not new_content or not new_content.strip():
+        return redirect('conversation', ad_id=message.ad.id, user_id=message.receiver.id)
+
+    message.content = new_content.strip()  
     message.save()
-    
+
     return redirect('conversation', ad_id=message.ad.id, user_id=message.receiver.id)
 
 @require_POST

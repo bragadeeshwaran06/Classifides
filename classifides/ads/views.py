@@ -9,7 +9,8 @@ from django.http import Http404
 from django.views.decorators.http import require_POST
 
 def home(request):
-    return render(request, 'base.html')
+    latest_ads = Ad.objects.order_by('-created_at')[:10]
+    return render(request, 'base.html', {'latest_ads': latest_ads})
 
 def category_ads(request, category_id):
     category = get_object_or_404(Category, id=category_id)
