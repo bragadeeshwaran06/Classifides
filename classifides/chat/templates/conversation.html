@@ -31,30 +31,32 @@
     <div id="messageFormContainer">
         <form method="post" id="message-form">
             {% csrf_token %}
-            <textarea name="message" id="message-input" placeholder="Type your message here..." class="message-input"></textarea>
+            {{ form.content }}
             <input type="hidden" name="message_id" id="message-id">
             <button type="submit" class="send-button" id="message-submit-btn">Send</button>
             <button type="button" id="cancel-edit-btn" style="display: none;" onclick="cancelEdit()">Cancel</button>
         </form>
-    </div>
+    </div>  
 </div>
 
 <script>
-function openEditForm(messageId) {
-    const messageContent = document.querySelector(`[data-message-id="${messageId}"] span`).textContent;
-    document.getElementById('message-id').value = messageId;
-    document.getElementById('message-input').value = messageContent;
-    document.getElementById('message-submit-btn').textContent = 'Save';
-    document.getElementById('message-form').action = `{% url 'edit_message' 0 %}`.replace('0', messageId);
-    document.getElementById('cancel-edit-btn').style.display = 'inline-block';
-}   
-
-function cancelEdit() {
-    document.getElementById('message-id').value = '';
-    document.getElementById('message-input').value = '';
-    document.getElementById('message-submit-btn').textContent = 'Send';
-    document.getElementById('message-form').action = '';
-    document.getElementById('cancel-edit-btn').style.display = 'none';
-}
+    function openEditForm(messageId) {
+        const messageContent = document.querySelector(`[data-message-id="${messageId}"] span`).textContent;
+        document.getElementById('message-id').value = messageId;
+        document.getElementById('id_content').value = messageContent;
+        document.getElementById('message-submit-btn').textContent = 'Save';
+        document.getElementById('message-form').action = `{% url 'edit_message' 0 %}`.replace('0', messageId);
+        document.getElementById('cancel-edit-btn').style.display = 'inline-block';
+        document.getElementById('id_content').scrollIntoView({ behavior: 'smooth' });
+    }   
+    
+    function cancelEdit() {
+        document.getElementById('message-id').value = '';
+        document.getElementById('id_content').value = '';
+        document.getElementById('message-submit-btn').textContent = 'Send';
+        document.getElementById('message-form').action = '';
+        document.getElementById('cancel-edit-btn').style.display = 'none';
+    }
 </script>
+
 {% endblock %}
