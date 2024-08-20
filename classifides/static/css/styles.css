@@ -22,79 +22,76 @@
     margin-bottom: 10px;
 }
 
-/* Container for messages */
+
 .messages {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 10px; /* Space between messages */
+    gap: 10px; 
     margin-bottom: 20px;
 }
 
-/* Style for individual messages */
+
 .message {
-    max-width: 60%; /* Control the width of the message bubbles */
+    max-width: 60%; 
     padding: 10px;
     border-radius: 10px;
     position: relative;
     display: inline-block;
 }
 
-/* Align sent messages to the right */
+
 .message.sent {
     justify-self: end;
-    background-color: #e3e8df; /* Light green background for sent messages */
+    background-color: #e3e8df; 
     text-align: right;
 }
 
-/* Align received messages to the left */
 .message.received {
     justify-self: start;
-    background-color: #f1f1f1; /* Light gray background for received messages */
+    background-color: #f1f1f1;
     text-align: left;
 }
 
-/* Timestamp style */
 .message-timestamp {
     font-size: 0.8em;
     color: #888;
     margin-top: 5px;
 }
 
-/* Message form container */
+
 .message-form {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
 }
 
-/* Form container styling */
 .message-form-container {
     display: flex;
-    flex-direction: column; /* Stack textarea and button vertically */
-    gap: 8px; /* Space between textarea and button */
-    padding: 12px; /* Padding around the form */
-    border: 1px solid #e0e0e0; /* Light gray border */
-    border-radius: 10px; /* Rounded corners */
-    background-color: #ffffff; /* White background */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Medium shadow for depth */
+    flex-direction: column;
+    gap: 8px; 
+    padding: 12px; 
+    border: 1px solid #e0e0e0; 
+    border-radius: 10px; 
+    background-color: #ffffff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
 }
 
-/* Textarea styling */
+
 .message-input {
-    width: 100%; /* Full width of the container */
-    padding: 12px; /* Padding inside the textarea */
-    border: 1px solid #b0b0b0; /* Slightly darker border */
-    border-radius: 8px; /* Rounded corners */
-    resize: none; /* Disable resizing */
-    font-size: 15px; /* Font size */
-    line-height: 1.6; /* Line height for readability */
-    background-color: #fafafa; /* Slightly gray background */
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle inner shadow */
+    width: 100%; 
+    padding: 12px; 
+    border: 1px solid #b0b0b0; 
+    border-radius: 8px; 
+    resize: none; 
+    font-size: 15px;
+    line-height: 1.6; 
+    background-color: #fafafa; 
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); 
 }
 
-/* Button styling */
+
 .send-button {
-    width: 100%; /* Full width of the container */
+    width: 100%;
     background-color: black; /* Black background */
     color: #ffffff; /* White text */
     border: none; /* Remove default border */
@@ -220,32 +217,3 @@ footer a:hover {
     position: relative;
 }
 
-.ad-card {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 20px;
-    text-align: center;
-    background-color: #fff;
-}
-
-.ad-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-}
-
-.ad-card h4 {
-    margin-top: 10px;
-    font-size: 1.2em;
-}
-
-.ad-card p {
-    color: #888;
-}
-
-.ad-card .btn {
-    margin-top: 10px;
-    background-color: black;
-    color: white;
-}
