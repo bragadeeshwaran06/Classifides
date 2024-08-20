@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 {% block title %}User Profile{% endblock %}
 
 {% block stylesheet %}
@@ -8,30 +9,44 @@
 
 {% block content %}
 <div class="container my-4">
-    <div class="card">
-        <div class="card-header">
-            <h3>{{ user.username }}'s Profile</h3>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Email: {{ user.email }}</h5>
-            <div class="mt-4">
-                <h5>Change Your Password</h5>
-                <a href="{% url 'password_change' %}" class="btn btn-primary">Change Password</a>
+    <div class="row">
+        <!-- User Profile Card -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <!-- Optional Profile Picture -->
+                    <div class="mb-3">
+                        <img src="{% static 'img/blank-profile.png' %}" alt="Profile Picture" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+                    </div>
+                    <h3 class="card-title">{{ user.username }}</h3>
+                    <h5 class="card-subtitle mb-2 text-muted">{{ user.email }}</h5>
+                    <a href="{% url 'password_change' %}" class="btn btn-primary mt-3">Change Password</a>
+                </div>
             </div>
         </div>
-            {% if ads %}
-                <ul class="list-group">
-                    <p class="card-text">Here are your ads:</p>
-                    {% for ad in ads %}
-                        <li class="list-group-item">
-                            <a href="{% url 'ad_detail' ad.id %}">{{ ad.title }}</a>
-                            <span class="badge bg-secondary float-end">{{ ad.price|floatformat:2 }}</span>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>You have no ads.</p>
-            {% endif %}
+
+        <!-- User Ads List -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Your Ads</h4>
+                </div>
+                <div class="card-body">
+                    {% if ads %}
+                        <ul class="list-group">
+                            {% for ad in ads %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="{% url 'ad_detail' ad.id %}" class="text-decoration-none">{{ ad.title }}</a>
+                                    <span class="badge bg-secondary">{{ ad.price|intcomma }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-center">You have no ads.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
