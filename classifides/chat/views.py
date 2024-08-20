@@ -40,8 +40,8 @@ def inbox(request):
     conversations = []
     for user in users:
         last_message = Message.objects.filter(
-            (models.Q(sender=request.user) & models.Q(receiver=user)) |
-            (models.Q(sender=user) & models.Q(receiver=request.user))
+            models.Q(sender=request.user, receiver=user) |
+            models.Q(sender=user, receiver=request.user)
         ).order_by('-timestamp').first()
         conversations.append((user, last_message))
     
