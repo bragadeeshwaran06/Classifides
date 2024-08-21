@@ -12,7 +12,6 @@ def home(request):
     latest_ads = Ad.objects.order_by('-created_at')[:10]
     return render(request, 'base.html', {'latest_ads': latest_ads})
 
-
 def category_ads(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     ads = Ad.objects.filter(category=category).prefetch_related('images')
@@ -88,39 +87,46 @@ def post_ad(request):
 
     return render(request, 'post_ad.html', {'ad_form': ad_form, 'ad_image_form': ad_image_form})
 
+from django.http import JsonResponse
+
 @login_required
 def edit_ad(request, ad_id):
     ad = get_object_or_404(Ad, id=ad_id)
-    
+
     if ad.user != request.user:
         raise Http404("You do not have permission to edit this ad.")
 
     if request.method == 'POST':
-        form = AdForm(request.POST, instance=ad)
-        formset = AdImageFormSet(request.POST, request.FILES, queryset=ad.images.all())
+        form = AdForm(request.POST, request.FILES, instance=ad)
 
-        if form.is_valid() and formset.is_valid():
-            ad = form.save()
+        if form.is_valid():
+            # Save the ad details first
+            form.save()
 
-            for form in formset:
-                if form.cleaned_data.get('DELETE'):
-                    form.instance.delete()
-                elif form.cleaned_data.get('image'):
-                    image = form.save(commit=False)
-                    image.ad = ad
-                    image.uploaded_by = request.user
-                    image.save()
+            # Handle new image uploads
+            if 'images' in request.FILES:
+                for file in request.FILES.getlist('images'):
+                    AdImage.objects.create(ad=ad, image=file, uploaded_by=request.user)
 
             return redirect('ad_detail', ad_id=ad.id)
     else:
         form = AdForm(instance=ad)
-        formset = AdImageFormSet(instance=ad)
 
+    images = AdImage.objects.filter(ad=ad)
     return render(request, 'ad_edit.html', {
         'form': form,
-        'formset': formset,
+        'ad': ad,
+        'images': images,
     })
 
+@login_required
+def delete_image(request):
+    if request.method == 'POST':
+        image_id = request.POST.get('image_id')
+        image = get_object_or_404(AdImage, id=image_id, ad__user=request.user)
+        image.delete()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
 
 @login_required
 @require_POST

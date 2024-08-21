@@ -1,48 +1,72 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
-  <div class="container mt-4">
-    <h2 class="mb-4">Edit Ad</h2>
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
+<div class="container mt-5">
+  <h2 class="mb-4">Edit Your Ad</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
 
-      <fieldset class="border p-4 mb-4">
-        <legend class="w-auto">Ad Details</legend>
-        {{ form.as_p }}
-      </fieldset>
 
-      <fieldset class="border p-4">
-        <legend class="w-auto">Ad Images</legend>
-        {{ formset.management_form }}
-        
-        <div id="ad-images-container" class="mb-3">
-          {% for form in formset %}
-            <div class="formset-row border p-3 mb-3 rounded">
-              {{ form.id }}
-              
-              <div class="form-group mb-2">
-                {% if form.instance.id and form.instance.image %}
-                  <img src="{{ form.instance.image.url }}" alt="Ad Image" class="img-thumbnail" style="max-width: 300px;">
-                {% else %}
-                  <div class="text-muted">No image uploaded</div>
-                {% endif %}
-              </div>
-              <div class="form-group">
-                {{ form.image.label_tag }} {{ form.image }}
-              </div>
-              {% if form.instance.pk %}x
-                <div class="form-group">
-                  <label for="{{ form.prefix }}-DELETE">Delete</label>
-                  {{ form.DELETE }}
-                </div>
-              {% endif %}
-            </div>
-          {% endfor %}
+    <fieldset class="border p-4 mb-5 rounded shadow-sm">
+      <legend class="w-auto font-weight-bold">Ad Details</legend>
+      {{ form.as_p }}
+    </fieldset>
+
+
+    <fieldset class="border p-4 rounded shadow-sm">
+      <legend class="w-auto font-weight-bold">Ad Images</legend>
+
+
+      <div id="ad-images-container">
+        {% for image in images %}
+        <div class="image-container">
+          <img src="{{ image.image.url }}" alt="Image {{ forloop.counter }}" class="ad-image">
+          <button type="button" class="btn btn-danger btn-sm delete-image-button" data-image-id="{{ image.id }}">Delete</button>
         </div>
-        <p>To add more images, upload them as new files. Each image you upload will appear here.</p>    
-      </fieldset>
-      
-      <button type="submit" class="btn btn-primary mt-3">Save changes</button>
-    </form>
-  </div>
+        {% endfor %}
+      </div>
+
+      <div class="form-group mt-4">
+        <label for="images">Upload New Images:</label>
+        <input type="file" name="images" id="images" multiple class="form-control">
+      </div>
+
+
+      <div class="text-right mt-3">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{% url 'my_ads' %}" class="btn btn-secondary ml-2">Cancel</a>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('.delete-image-button');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const imageId = this.getAttribute('data-image-id');
+            fetch('{% url "delete_image" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: new URLSearchParams({
+                    'image_id': imageId
+                })
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.status === 'success') {
+                      this.closest('.image-container').remove();
+                  } else {
+                      alert('Failed to delete image.');
+                  }
+              });
+        });
+    });
+});
+</script>
 {% endblock %}
