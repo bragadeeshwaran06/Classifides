@@ -1,7 +1,6 @@
 from django import forms
 from .models import *
 from taggit.forms import TagWidget
-from django.forms import inlineformset_factory
 
 class AdForm(forms.ModelForm):
     show_contact_info = forms.BooleanField(
@@ -28,13 +27,9 @@ class AdForm(forms.ModelForm):
         }
 
 class AdImageForm(forms.ModelForm):
-    image = forms.ImageField(widget=forms.ClearableFileInput(attrs={'allow_multiple_selected': True}), required=False)
-
     class Meta:
         model = AdImage
         fields = ['image']
-
-AdImageFormSet = inlineformset_factory(Ad, AdImage, form=AdImageForm, extra=1   , can_delete=True)
 
 class MessageForm(forms.ModelForm):
     class Meta:
