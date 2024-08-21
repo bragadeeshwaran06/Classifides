@@ -42,7 +42,7 @@ class Ad(models.Model):
         return self.title
 
 class AdImage(models.Model):
-    image = models.ImageField(upload_to='ad_images/', blank=True, null=True)
+    image = models.ImageField(upload_to='ad_images/')
     uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
     ad = models.ForeignKey(Ad, related_name='images', on_delete=models.CASCADE)
 

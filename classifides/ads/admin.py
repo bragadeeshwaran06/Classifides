@@ -28,4 +28,4 @@ class LikeAdmin(admin.ModelAdmin):
 
 @admin.register(AdImage)
 class AdImageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'ad', 'image')
+    list_display = ['image']
