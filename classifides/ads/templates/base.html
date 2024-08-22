@@ -24,11 +24,23 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
                             {% for category in categories %}
-                                <li><a class="dropdown-item" href="{% url 'category_ads' category.id %}">{{ category.name }}</a></li>
+                                <li>
+                                    <a class="dropdown-item{% if category.id|stringformat:"s" == selected_category %} active{% endif %}" href="?category={{ category.id }}">
+                                        {{ category.name }}
+                                    </a>
+                                </li>
                             {% endfor %}
-                        </ul>
+                        </ul>                        
                     </li>
-                </ul>
+                    
+                    {% if selected_category %}
+                    <div class="clear-filter ms-2">
+                        <a href="{% url 'home' %}"  class="btn btn-outline-danger ms-3 clear-filter-btn">
+                            <i class="bi bi-x-circle"></i> Clear
+                        </a>
+                    </div>
+                    {% endif %}
+                </ul>                
                 <a class="navbar-brand " href="{% url 'home' %}">AdWave</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -67,7 +79,7 @@
         <h2>Fresh recommendations</h2>
         <div class="latest-ads-section">
             <div class="row g-4">
-                {% for ad in latest_ads %}
+                {% for ad in ads %}
                     <div class="col-md-4">
                         <div class="ad-card">
                             <img src="{{ ad.images.first.image.url }}" alt="{{ ad.title }}" class="ad-image">
