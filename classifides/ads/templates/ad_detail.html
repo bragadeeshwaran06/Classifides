@@ -12,28 +12,29 @@
     <div class="row">
         <div class="col-md-8">
             {% if ad.images.all %}
-                <div id="adImagesCarousel" class="carousel slide">
-                    <div class="carousel-inner">
-                        {% for image in ad.images.all %}
-                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ ad.title }}" style="object-fit: cover; height: 500px; width: 500px;">
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#adImagesCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#adImagesCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+            <div id="adImagesCarousel" class="carousel slide">
+                <div class="carousel-inner">
+                    {% for image in ad.images.all %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ ad.title }}" style="height: 500px; max-height: 500px; object-fit: contain;">
+                        </div>
+                    {% endfor %}
                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#adImagesCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#adImagesCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            
             {% else %}
-                <img src="{% static 'img/default.webp' %}" class="img-fluid" alt="No image available" style="height: 500px; object-fit: cover;">
+                <img src="{% static 'img/default.webp' %}" alt="No image available" style="height: 500px; object-fit: cover;">
             {% endif %}
 
-            <!-- Description -->
+
             <div class="mt-4">
                 <h4>Description</h4>
                 <p class="card-text" style="white-space: pre-wrap;">{{ ad.description|safe }}</p>
@@ -41,7 +42,7 @@
         </div>
 
         <div class="col-md-4">
-            <!-- Contact Information -->
+
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body">
                     <h4 class="card-title">Price: ₹{{ ad.price|intcomma }}</h4>
@@ -55,7 +56,6 @@
                 </div>
             </div>
 
-            <!-- Tags -->
             <div class="tags mb-4">
                 <h5>Tags:</h5>
                 {% if ad.tags.all %}
@@ -68,8 +68,7 @@
                     <p>No tags available.</p>
                 {% endif %}
             </div>
-
-            <!-- Chat Options -->
+            
             <div class="d-grid gap-2">
                 {% if user.is_authenticated %}
                     <form action="{% url 'like_ad' ad.id %}" method="post" class="mb-3">
