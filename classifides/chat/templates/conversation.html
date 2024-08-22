@@ -2,61 +2,62 @@
 
 {% load static %}
 
-{% block content %}
-<h2 style="text-align: center;">{{ other_user.username }}</h2>
-
-<div class="container">
-    <div class="messages">
-        {% for message in messages %}
-            <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
-                <div class="message-content" data-message-id="{{ message.id }}">
-                    <span>{{ message.content }}</span>
-                </div>
-                <div class="message-timestamp">
-                    {{ message.timestamp|date:"M d, Y H:i" }}
-                </div>
-                {% if message.sender == request.user %}
-                    <div class="message-options">
-                        <button class="edit-message-btn" onclick="openEditForm({{ message.id }})">Edit</button>
-                        <form method="post" action="{% url 'delete_message' message.id %}" class="delete-message-form">
-                            {% csrf_token %}
-                            <button type="submit">Delete</button>
-                        </form>
+{% block content %} 
+<div class="mb-3"><a href="{% url 'ad_detail' ad.id %}" class="btn btn-secondary">Back to Ad: {{ ad.title }}</a></div>
+    <div class="container">
+        <div class="text-center mb-3">
+            <h2>{{ other_user.username }}</h2>
+        </div>
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                    <div class="message-content" data-message-id="{{ message.id }}">
+                        <span>{{ message.content }}</span>
                     </div>
-                {% endif %}
-            </div>
-        {% endfor %}
+                    <div class="message-timestamp">
+                        {{ message.timestamp|date:"M d, Y H:i" }}
+                    </div>
+                    {% if message.sender == request.user %}
+                        <div class="message-options">
+                            <button class="edit-message-btn" onclick="openEditForm({{ message.id }})">Edit</button>
+                            <form method="post" action="{% url 'delete_message' message.id %}" class="delete-message-form">
+                                {% csrf_token %}
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div id="messageFormContainer">
+            <form method="post" id="message-form">
+                {% csrf_token %}
+                {{ form.content }}
+                <input type="hidden" name="message_id" id="message-id">
+                <button type="submit" class="send-button" id="message-submit-btn">Send</button>
+                <button type="button" id="cancel-edit-btn" style="display: none;" onclick="cancelEdit()">Cancel</button>
+            </form>
+        </div>  
     </div>
 
-    <div id="messageFormContainer">
-        <form method="post" id="message-form">
-            {% csrf_token %}
-            {{ form.content }}
-            <input type="hidden" name="message_id" id="message-id">
-            <button type="submit" class="send-button" id="message-submit-btn">Send</button>
-            <button type="button" id="cancel-edit-btn" style="display: none;" onclick="cancelEdit()">Cancel</button>
-        </form>
-    </div>  
-</div>
-
-<script>
-    function openEditForm(messageId) {
-        const messageContent = document.querySelector(`[data-message-id="${messageId}"] span`).textContent;
-        document.getElementById('message-id').value = messageId;
-        document.getElementById('id_content').value = messageContent;
-        document.getElementById('message-submit-btn').textContent = 'Save';
-        document.getElementById('message-form').action = `{% url 'edit_message' 0 %}`.replace('0', messageId);
-        document.getElementById('cancel-edit-btn').style.display = 'inline-block';
-        document.getElementById('id_content').scrollIntoView({ behavior: 'smooth' });
-    }   
-    
-    function cancelEdit() {
-        document.getElementById('message-id').value = '';
-        document.getElementById('id_content').value = '';
-        document.getElementById('message-submit-btn').textContent = 'Send';
-        document.getElementById('message-form').action = '';
-        document.getElementById('cancel-edit-btn').style.display = 'none';
-    }
-</script>
-
+    <script>
+        function openEditForm(messageId) {
+            const messageContent = document.querySelector(`[data-message-id="${messageId}"] span`).textContent;
+            document.getElementById('message-id').value = messageId;
+            document.getElementById('id_content').value = messageContent;
+            document.getElementById('message-submit-btn').textContent = 'Save';
+            document.getElementById('message-form').action = `{% url 'edit_message' 0 %}`.replace('0', messageId);
+            document.getElementById('cancel-edit-btn').style.display = 'inline-block';
+            document.getElementById('id_content').scrollIntoView({ behavior: 'smooth' });
+        }   
+        
+        function cancelEdit() {
+            document.getElementById('message-id').value = '';
+            document.getElementById('id_content').value = '';
+            document.getElementById('message-submit-btn').textContent = 'Send';
+            document.getElementById('message-form').action = '';
+            document.getElementById('cancel-edit-btn').style.display = 'none';
+        }
+    </script>
 {% endblock %}

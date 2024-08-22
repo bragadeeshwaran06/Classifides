@@ -4,23 +4,31 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="text-center mb-4">Inbox</h2>
-    
-    {% if conversations %}
-        <ul class="list-group">
-            {% for user, last_message in conversations %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="{% url 'conversation' ad_id=last_message.ad.id user_id=user.id %}" class="text-decoration-none">
-                        <strong>{{ user.username }}</strong>
-                        <br>
-                        <span class="text-muted">{{ last_message.content|truncatewords:10 }}</span>
-                    </a>
-                    <span class="badge badge-secondary">{{ last_message.timestamp|date:"M d, Y H:i" }}</span>
-                </li>
+    <h2 class="mb-4" style="text-align: center;">Inbox</h2>
+
+    {% for user, ad_conversations in conversations %}
+        <div class="user-conversations mb-4">
+            <h3 class="mb-3">{{ user.username }}</h3>
+
+            {% for ad, last_message in ad_conversations %}
+                <div class="conversation mb-3 p-3 border rounded bg-light shadow-sm">
+                    <h4>
+                        <a href="{% url 'conversation' ad.id user.id %}" class="text-decoration-none text-dark">
+                            Ad: {{ ad.title }}
+                        </a>
+                    </h4>
+                    <div class="last-message">
+                        {% if last_message %}
+                            <p class="mb-1">{{ last_message.content|slice:":50" }}{% if last_message.content|length > 50 %}...{% endif %}</p>
+                            <small class="text-muted">{{ last_message.timestamp|date:"M d, Y H:i" }}</small>
+                        {% else %}
+                            <p class="mb-1">No messages yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
             {% endfor %}
-        </ul>
-    {% else %}
-        <p class="text-center">No conversations yet. Start messaging!</p>
-    {% endif %}
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}
+

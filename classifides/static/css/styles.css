@@ -280,7 +280,7 @@ footer a:hover {
 }
 
 .dropdown-item.active {
-    background-color: rgb(52, 50, 50); /* Blue background for active state */
+    background-color: rgb(59, 57, 57); /* Blue background for active state */
     color: #ffffff; /* White text color for active state */
     font-weight: 500; /* Slightly bolder text for active state */
 }
@@ -288,4 +288,24 @@ footer a:hover {
 .dropdown-item.active:hover {
     background-color: rgb(35, 34, 34); /* Darker blue on hover for active state */
     color: #ffffff; /* Maintain white text on hover */
+}
+
+
+.user-conversations {
+    border-left: 3px solid black;
+    padding-left: 15px;
+}
+
+.conversation {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.conversation a {
+    color: #007bff;
+}
+
+.conversation a:hover {
+    text-decoration: underline;
 }

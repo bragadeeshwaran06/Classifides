@@ -33,20 +33,39 @@ def conversation(request, ad_id, user_id):
 
 @login_required
 def inbox(request):
+    # Get all unique users who have sent or received messages from the current user
     users = User.objects.filter(
         models.Q(sent_messages__receiver=request.user) |
         models.Q(received_messages__sender=request.user)
     ).distinct()
-    
+
     conversations = []
+
     for user in users:
-        last_message = Message.objects.filter(
+        ad_conversations = []
+
+        # Get ad IDs where there are messages between the current user and this user
+        ad_ids = Message.objects.filter(
             models.Q(sender=request.user, receiver=user) |
             models.Q(sender=user, receiver=request.user)
-        ).order_by('-timestamp').first()
-        conversations.append((user, last_message))
+        ).values_list('ad_id', flat=True).distinct()
+
+        # Fetch ads based on ad_ids
+        ads = Ad.objects.filter(id__in=ad_ids).distinct()
+
+        for ad in ads:
+            # Get the last message for the current ad
+            last_message = Message.objects.filter(
+                models.Q(sender=request.user, receiver=user) |
+                models.Q(sender=user, receiver=request.user),
+                ad=ad
+            ).order_by('-timestamp').first()
+            ad_conversations.append((ad, last_message))
+
+        conversations.append((user, ad_conversations))
     
     return render(request, 'inbox.html', {'conversations': conversations})
+
 
 @require_POST
 def edit_message(request, message_id):
