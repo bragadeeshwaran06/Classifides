@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
 {% load humanize %}
 
 {% block title %}Ad Detail{% endblock %}
@@ -17,7 +16,7 @@
                     <div class="carousel-inner">
                         {% for image in ad.images.all %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ ad.title }}" style="object-fit: cover; height: 500px;">
+                                <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ ad.title }}" style="object-fit: cover; height: 500px; width: 500px;">
                             </div>
                         {% endfor %}
                     </div>
@@ -33,14 +32,19 @@
             {% else %}
                 <img src="{% static 'img/default.webp' %}" class="img-fluid" alt="No image available" style="height: 500px; object-fit: cover;">
             {% endif %}
+
+            <!-- Description -->
+            <div class="mt-4">
+                <h4>Description</h4>
+                <p class="card-text" style="white-space: pre-wrap;">{{ ad.description|safe }}</p>
+            </div>
         </div>
 
-        
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm">
+            <!-- Contact Information -->
+            <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body">
                     <h4 class="card-title">Price: ₹{{ ad.price|intcomma }}</h4>
-                    <p class="card-text">{{ ad.description }}</p>
                     
                     {% if ad.show_contact_info %}
                         <p><strong>Email:</strong> {{ ad.contact_email }}</p>
@@ -48,30 +52,44 @@
                     {% else %}
                         <p>Contact information is hidden by the seller.</p>
                     {% endif %}
-                    
-                
-                    <div class="d-grid gap-2">
-                        {% if user.is_authenticated %}
-                            <form action="{% url 'like_ad' ad.id %}" method="post" class="mb-3">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-primary">
-                                    {% if liked_by_user %}
-                                        Unlike
-                                    {% else %}
-                                        Like
-                                    {% endif %}
-                                </button>
-                            </form>
-                            {% if ad.user != user %}
-                                <a href="{% url 'conversation' ad.id ad.user.id %}" class="btn btn-secondary">Chat with seller</a>
-                            {% else %}
-                                <a href="{% url 'inbox' %}" class="btn btn-secondary">Inbox</a>
-                            {% endif %}
-                        {% else %}
-                            <p><a href="{% url 'login' %}" class="btn btn-primary">Log in</a> to like or message the seller.</p>
-                        {% endif %}
-                    </div>
                 </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="tags mb-4">
+                <h5>Tags:</h5>
+                {% if ad.tags.all %}
+                    <ul class="list-unstyled">
+                        {% for tag in ad.tags.all %}
+                            <li><a href="{% url 'tagged_ads' tag.slug %}" class="badge" style="background-color: whitesmoke; color: black; text-decoration: none;">{{ tag.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No tags available.</p>
+                {% endif %}
+            </div>
+
+            <!-- Chat Options -->
+            <div class="d-grid gap-2">
+                {% if user.is_authenticated %}
+                    <form action="{% url 'like_ad' ad.id %}" method="post" class="mb-3">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">
+                            {% if liked_by_user %}
+                                Unlike
+                            {% else %}
+                                Like
+                            {% endif %}
+                        </button>
+                    </form>
+                    {% if ad.user != user %}
+                        <a href="{% url 'conversation' ad.id ad.user.id %}" class="btn btn-secondary">Chat with seller</a>
+                    {% else %}
+                        <a href="{% url 'inbox' %}" class="btn btn-secondary">Inbox</a>
+                    {% endif %}
+                {% else %}
+                    <p><a href="{% url 'login' %}" class="btn btn-primary">Log in</a> to like or message the seller.</p>
+                {% endif %}
             </div>
         </div>
     </div>

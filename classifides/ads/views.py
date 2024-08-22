@@ -7,6 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.http import Http404
 from django.views.decorators.http import require_POST
+from taggit.models import Tag
 
 def home(request):
     category_id = request.GET.get('category')
@@ -81,7 +82,7 @@ def post_ad(request):
             ad = ad_form.save(commit=False)
             ad.user = request.user
             ad.save()
-
+            ad_form.save_m2m()
             
             images = request.FILES.getlist('images')
             for image in images:
@@ -147,3 +148,8 @@ def delete_ad(request, pk):
     ad.delete()
     messages.success(request, 'Ad deleted successfully.')
     return redirect('my_ads')
+
+def tagged_ads(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    ads = Ad.objects.filter(tags__in=[tag])
+    return render(request, 'tagged_ads.html', {'tag': tag, 'ads': ads})

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Ads Tagged with {{ tag.name }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1>Ads Tagged with {{ tag.name }}</h1>
+
+    {% if ads %}
+        <div class="row">
+            {% for ad in ads %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ ad.images.first.image.url }}" class="card-img-top" alt="{{ ad.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ ad.title }}</h5>
+                            <p class="card-text">₹{{ ad.price|intcomma }}</p>
+                            <a href="{% url 'ad_detail' ad.id %}" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No ads found with this tag.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -12,5 +12,6 @@ urlpatterns = [
     path('ads/<int:ad_id>/edit/', views.edit_ad, name='edit_ad'),
     path('ads/delete/<int:pk>/', delete_ad, name='delete_ad'),
     path('delete/', delete_image, name='delete_image'),
+    path('tags/<slug:tag_slug>/', tagged_ads, name='tagged_ads'),
 ]
 
