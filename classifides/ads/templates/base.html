@@ -25,7 +25,7 @@
                         <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
                             {% for category in categories %}
                                 <li>
-                                    <a class="dropdown-item{% if category.id|stringformat:"s" == selected_category %} active{% endif %}" href="?category={{ category.id }}">
+                                    <a class="dropdown-item{% if category.id|stringformat:"s" == selected_category %} active{% endif %}" href="{% url 'home' %}?category={{ category.id }}">
                                         {{ category.name }}
                                     </a>
                                 </li>
