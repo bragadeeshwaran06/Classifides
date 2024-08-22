@@ -1,3 +1,28 @@
+.clear-filter-btn {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    background-color: #f0f8ff; /* Light subtle blue */
+    color: #343a40; /* Dark gray for text */
+    border: 1px solid #adb5bd; /* Light gray border */
+    border-radius: 25px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.clear-filter-btn:hover {
+    background-color: #d4e9f4; /* Slightly darker blue on hover */
+    color: #212529; /* Darker gray text on hover */
+    border-color: #6c757d; /* Darker border on hover */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow on hover */
+}
+
+.clear-filter-btn i {
+    margin-right: 5px;
+    font-size: 1.2rem;
+}
+
 .navbar-brand {
     font-family: 'DM Serif Text', serif;
     font-weight: 400; 
@@ -231,4 +256,36 @@ footer a:hover {
 
 .latest-ads-section {
     margin-top: 2rem; 
+}
+
+.dropdown-menu {
+    background-color: #ffffff; /* White background for the dropdown */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for a subtle effect */
+    border: none; /* Remove default border */
+    padding: 10px 0; /* Add padding to the dropdown menu */
+}
+
+.dropdown-item {
+    padding: 10px 20px; /* Increased padding for more clickable area */
+    color: #495057; /* Dark gray text color */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+    font-size: 16px; /* Adjusted font size */
+    border-radius: 5px; /* Slight rounding for each item */
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa; /* Light gray background on hover */
+    color: #212529; /* Darker text color on hover */
+}
+
+.dropdown-item.active {
+    background-color: rgb(52, 50, 50); /* Blue background for active state */
+    color: #ffffff; /* White text color for active state */
+    font-weight: 500; /* Slightly bolder text for active state */
+}
+
+.dropdown-item.active:hover {
+    background-color: rgb(35, 34, 34); /* Darker blue on hover for active state */
+    color: #ffffff; /* Maintain white text on hover */
 }
