@@ -11,13 +11,21 @@ from taggit.models import Tag
 
 def home(request):
     category_id = request.GET.get('category')
-    ads = Ad.objects.filter(category_id=category_id) if category_id else Ad.objects.order_by('-created_at')[:10]
+    
+    if category_id:
+        ads = Ad.objects.filter(category_id=category_id)
+        category = get_object_or_404(Category, id=category_id)
+    else:
+        ads = Ad.objects.order_by('-created_at')[:10]
+        category = None
+    
     categories = Category.objects.all()
 
     return render(request, 'base.html', {
         'ads': ads,
         'categories': categories,
         'selected_category': category_id,
+        'category': category,
     })
 
 def category_ads(request, category_id):

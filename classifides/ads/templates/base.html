@@ -76,7 +76,11 @@
 
     <div class="container my-4">
         {% block content %}
-        <h2>Fresh recommendations</h2>
+        {% if category %}
+            <h1>{{ category.name }}</h1>
+        {% else %}
+            <h1>Latest Ads</h1>
+        {% endif %}
         <div class="latest-ads-section">
             <div class="row g-4">
                 {% for ad in ads %}

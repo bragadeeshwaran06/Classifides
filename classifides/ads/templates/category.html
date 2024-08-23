@@ -17,7 +17,7 @@
                                 <div class="carousel-inner">
                                     {% for image in ad.images.all %}
                                         <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                            <img src="{{ image.image.url }}" class="d-block w-100 card-img-top ad-image" alt="{{ ad.title }}">
+                                            <img src="{{ image.image.url }}" class="d-block w-100 card-img-top ad-image" alt="{{ ad.title }}" style="object-fit: cover;">
                                         </div>
                                     {% endfor %}
                                 </div>
@@ -31,7 +31,7 @@
                                 </button>
                             </div>
                         {% else %}
-                            <img src="{#}" class="card-img-top" alt="No image available">
+                            <img src="{% static 'img/default.webp' %}" class="card-img-top" alt="No image available">
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ ad.title }}</h5>
