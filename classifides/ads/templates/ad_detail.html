@@ -75,9 +75,9 @@
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary">
                             {% if liked_by_user %}
-                                Unlike
+                                Unlike  <i class='far fa-thumbs-down'></i>
                             {% else %}
-                                Like
+                                Like  <i class='far fa-thumbs-up'></i>
                             {% endif %}
                         </button>
                     </form>

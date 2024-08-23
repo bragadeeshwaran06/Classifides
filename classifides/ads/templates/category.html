@@ -13,7 +13,7 @@
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         {% if ad.images.all %}
-                            <div id="carousel{{ ad.id }}" class="carousel slide" data-bs-ride="carousel">
+                            <div id="carousel{{ ad.id }}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                                 <div class="carousel-inner">
                                     {% for image in ad.images.all %}
                                         <div class="carousel-item {% if forloop.first %}active{% endif %}">
