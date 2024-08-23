@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-8">
             {% if ad.images.all %}
-            <div id="adImagesCarousel" class="carousel slide">
+            <div id="adImagesCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                 <div class="carousel-inner">
                     {% for image in ad.images.all %}
                         <div class="carousel-item {% if forloop.first %}active{% endif %}">
@@ -68,7 +68,7 @@
                     <p>No tags available.</p>
                 {% endif %}
             </div>
-            
+
             <div class="d-grid gap-2">
                 {% if user.is_authenticated %}
                     <form action="{% url 'like_ad' ad.id %}" method="post" class="mb-3">
